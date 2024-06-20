@@ -13,6 +13,13 @@ CREATE TABLE
     CONSTRAINT uk_nombre_pais UNIQUE (nombre)
   );
 
+CREATE TABLE telefonos (
+  id INT (8),
+  numero VARCHAR (20),
+  CONSTRAINT pk_id_telefono PRIMARY KEY (id),
+  CONSTRAINT uk_numero_telefono UNIQUE (numero)
+);
+
 CREATE TABLE
   estados_seguimientos (
     id INT (3) AUTO_INCREMENT,
@@ -153,7 +160,7 @@ CREATE TABLE
     capacidad_carga DECIMAL(10, 2),
     id_sucursal INT (8),
     CONSTRAINT pk_id_vehiculo PRIMARY KEY (id),
-    CONSTRAINT fk_id_modelo_vehiculo FOREING KEY (id_modelo)
+    CONSTRAINT fk_id_modelo_vehiculo FOREIGN KEY (id_modelo)
     REFERENCES modelos (id),
     CONSTRAINT fk_id_sucursal_vehiculo FOREIGN KEY (id_sucursal) REFERENCES sucursales (id)
   );
