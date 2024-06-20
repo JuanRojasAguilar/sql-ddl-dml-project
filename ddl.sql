@@ -135,12 +135,12 @@ CREATE TABLE
   );
 
 CREATE TABLE
-  ruta_auxiliares (
+  auxiliares_rutas (
     id_ruta INT (8),
     id_auxiliar INT (8),
-    CONSTRAINT pk_composite_id_ruta_auxiliar PRIMARY KEY (id_ruta, id_auxiliar),
-    CONSTRAINT fk_id_ruta_ruta_auxiliar FOREIGN KEY (id_ruta) REFERENCES rutas (id),
-    CONSTRAINT fk_id_auxiliar_ruta_auxiliar FOREIGN KEY (id_auxiliar) REFERENCES auxiliares (id)
+    CONSTRAINT pk_composite_id_auxiliar_ruta PRIMARY KEY (id_ruta, id_auxiliar),
+    CONSTRAINT fk_id_ruta_auxiliar_ruta FOREIGN KEY (id_ruta) REFERENCES rutas (id),
+    CONSTRAINT fk_id_auxiliar_auxiliar_ruta FOREIGN KEY (id_auxiliar) REFERENCES auxiliares (id)
   );
 
 CREATE TABLE modelos(
