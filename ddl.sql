@@ -13,12 +13,13 @@ CREATE TABLE
     CONSTRAINT uk_nombre_pais UNIQUE (nombre)
   );
 
-CREATE TABLE telefonos (
-  id INT (8),
-  numero VARCHAR (20),
-  CONSTRAINT pk_id_telefono PRIMARY KEY (id),
-  CONSTRAINT uk_numero_telefono UNIQUE (numero)
-);
+CREATE TABLE
+  telefonos (
+    id INT (8) AUTO_INCREMENT,
+    numero VARCHAR(20),
+    CONSTRAINT pk_id_telefono PRIMARY KEY (id),
+    CONSTRAINT uk_numero_telefono UNIQUE (numero)
+  );
 
 CREATE TABLE
   estados_seguimientos (
@@ -27,17 +28,26 @@ CREATE TABLE
     CONSTRAINT pk_id_seguimiento PRIMARY KEY (id)
   );
 
-CREATE TABLE tipos_servicios (
-  id INT(3) AUTO_INCREMENT,
-  nombre VARCHAR(20),
-  CONSTRAINT pk_id_tipo_servicio PRIMARY KEY (id)
-);
+CREATE TABLE
+  tipos_servicios (
+    id INT (3) AUTO_INCREMENT,
+    nombre VARCHAR(20),
+    CONSTRAINT pk_id_tipo_servicio PRIMARY KEY (id)
+  );
 
-CREATE TABLE marcas (
-  id INT(8) AUTO_INCREMENT,
-  nombre VARCHAR(100),
-  CONSTRAINT pk_id_marca PRIMARY KEY (id)
-);
+CREATE TABLE
+  tipos_vehiculos (
+    id INT (3) AUTO_INCREMENT,
+    nombre VARCHAR(50),
+    CONSTRAINT pk_id_tipo_vehiculo PRIMARY KEY (id)
+  );
+
+CREATE TABLE
+  marcas (
+    id INT (8) AUTO_INCREMENT,
+    nombre VARCHAR(100),
+    CONSTRAINT pk_id_marca PRIMARY KEY (id)
+  );
 
 -- Tablas dependientes de otras
 CREATE TABLE
@@ -45,30 +55,30 @@ CREATE TABLE
     id INT (9) AUTO_INCREMENT,
     id_telefono INT (8),
     nombre VARCHAR(100),
-    email VARCHAR(100),
+    email VARCHAR(100) NOT NULL,
     CONSTRAINT pk_id_cliente PRIMARY KEY (id),
-    CONSTRAINT fk_id_telefono FOREIGN KEY (id_telefono)
-    REFERENCES telefonos (id),
+    CONSTRAINT fk_id_telefono FOREIGN KEY (id_telefono) REFERENCES telefonos (id),
     CONSTRAINT uk_email_clientes UNIQUE (email)
   );
+
 CREATE TABLE
   conductores (
     id VARCHAR(20),
     id_telefono INT (8),
     nombre VARCHAR(100),
     CONSTRAINT pk_id_conductor PRIMARY KEY (id),
-    CONSTRAINT fk_id_telefono_conductor FOREIGN KEY (id_telefono)
-    REFERENCES telefonos (id)
+    CONSTRAINT fk_id_telefono_conductor FOREIGN KEY (id_telefono) REFERENCES telefonos (id)
   );
+
 CREATE TABLE
   auxiliares (
     id INT (8) AUTO_INCREMENT,
     nombre VARCHAR(100),
-    id_telefono INT(8),
+    id_telefono INT (8),
     CONSTRAINT pk_id_auxiliar PRIMARY KEY (id),
-    CONSTRAINT fk_id_telefono_auxiliar FOREIGN KEY(id_telefono)
-    REFERENCES telefonos (id)
+    CONSTRAINT fk_id_telefono_auxiliar FOREIGN KEY (id_telefono) REFERENCES telefonos (id)
   );
+
 CREATE TABLE
   paquetes (
     id INT (9) AUTO_INCREMENT,
@@ -78,8 +88,7 @@ CREATE TABLE
     contenido TEXT,
     valor_declarado DECIMAL(10, 2),
     CONSTRAINT pk_id_paquete PRIMARY KEY (id),
-    CONSTRAINT fk_id_tipo_servicio_paquete FOREIGN KEY (id_tipo_servicio)
-    REFERENCES tipos_servicios (id)
+    CONSTRAINT fk_id_tipo_servicio_paquete FOREIGN KEY (id_tipo_servicio) REFERENCES tipos_servicios (id)
   );
 
 CREATE TABLE
@@ -93,7 +102,6 @@ CREATE TABLE
     CONSTRAINT fk_id_paquete_seguimiento FOREIGN KEY (id_paquete) REFERENCES paquetes (id),
     CONSTRAINT fk_id_estado_seguimiento FOREIGN KEY (id_estado) REFERENCES estados_seguimientos (id)
   );
-
 
 CREATE TABLE
   ciudades (
@@ -119,10 +127,9 @@ CREATE TABLE
   sucursales (
     id INT (8) AUTO_INCREMENT,
     nombre VARCHAR(100),
-    direccion VARCHAR(200),
-    id_ciudad INT (8),
+    id_direccion INT (11),
     CONSTRAINT pk_id_sucursal PRIMARY KEY (id),
-    CONSTRAINT fk_id_ciudad_sucursal FOREIGN KEY (id_ciudad) REFERENCES ciudades (id)
+    CONSTRAINT fk_id_direccion_sucursal FOREIGN KEY (id_direccion) REFERENCES direcciones (id)
   );
 
 CREATE TABLE
@@ -143,26 +150,28 @@ CREATE TABLE
     CONSTRAINT fk_id_auxiliar_auxiliar_ruta FOREIGN KEY (id_auxiliar) REFERENCES auxiliares (id)
   );
 
-CREATE TABLE modelos(
-  id INT(8) AUTO_INCREMENT,
-  id_marca INT(8),
-  name VARCHAR(40),
-  CONSTRAINT pk_id_modelo PRIMARY KEY(id),
-  CONSTRAINT fk_id_marca_modelo FOREIGN KEY(id_marca)
-  REFERENCES marcas(id)
-);
+CREATE TABLE
+  modelos (
+    id INT (8) AUTO_INCREMENT,
+    id_marca INT (8),
+    id_tipo_vehiculo INT (3),
+    name VARCHAR(40),
+    CONSTRAINT pk_id_modelo PRIMARY KEY (id),
+    CONSTRAINT fk_id_marca_modelo FOREIGN KEY (id_marca) REFERENCES marcas (id),
+    CONSTRAINT fk_id_tipo_vehiculo_modelo FOREIGN KEY (id_tipo_vehiculo) REFERENCES tipos_vehiculos (id)
+  );
 
 CREATE TABLE
   vehiculos (
     id INT (8) AUTO_INCREMENT,
     placa VARCHAR(20),
-    id_modelo INT(8),
+    id_modelo INT (8),
     capacidad_carga DECIMAL(10, 2),
     id_sucursal INT (8),
     CONSTRAINT pk_id_vehiculo PRIMARY KEY (id),
-    CONSTRAINT fk_id_modelo_vehiculo FOREIGN KEY (id_modelo)
-    REFERENCES modelos (id),
-    CONSTRAINT fk_id_sucursal_vehiculo FOREIGN KEY (id_sucursal) REFERENCES sucursales (id)
+    CONSTRAINT fk_id_modelo_vehiculo FOREIGN KEY (id_modelo) REFERENCES modelos (id),
+    CONSTRAINT fk_id_sucursal_vehiculo FOREIGN KEY (id_sucursal) REFERENCES sucursales (id),
+    CONSTRAINT uk_placa_vehiculo UNIQUE (placa)
   );
 
 CREATE TABLE
