@@ -73,8 +73,8 @@ CREATE TABLE
 CREATE TABLE
   auxiliares (
     id INT (8) AUTO_INCREMENT,
-    nombre VARCHAR(100),
     id_telefono INT (8),
+    nombre VARCHAR(100),
     CONSTRAINT pk_id_auxiliar PRIMARY KEY (id),
     CONSTRAINT fk_id_telefono_auxiliar FOREIGN KEY (id_telefono) REFERENCES telefonos (id)
   );
@@ -176,11 +176,14 @@ CREATE TABLE
 
 CREATE TABLE
   conductores_rutas (
+    id INT (11) AUTO_INCREMENT,
     id_conductor VARCHAR(20),
     id_ruta INT (8),
     id_vehiculo INT (8),
     id_sucursal INT (8),
-    CONSTRAINT pk_composite_id_conductor_ruta PRIMARY KEY (id_conductor, id_ruta),
+    CONSTRAINT pk_id_conductor_ruta PRIMARY KEY (id),
+    CONSTRAINT fk_conductor_conductor_ruta FOREIGN KEY (id_conductor) REFERENCES conductores (id),
+    CONSTRAINT fk_ruta_conductor_ruta FOREIGN KEY (id_ruta) REFERENCES rutas (id),
     CONSTRAINT fk_vehiculo_conductor_ruta FOREIGN KEY (id_vehiculo) REFERENCES vehiculos (id),
     CONSTRAINT fk_sucursal_conductor_ruta FOREIGN KEY (id_sucursal) REFERENCES sucursales (id)
   );

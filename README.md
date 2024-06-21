@@ -4,7 +4,7 @@ Juan Diego Rojas Aguilar
 
 ## ERD
 
-![Entity Relation Diagram](ERDDiagram1.png)
+![Entity Relation Diagram](ERDDiagram.jpg)
 
 #### Tablas primarias
 
