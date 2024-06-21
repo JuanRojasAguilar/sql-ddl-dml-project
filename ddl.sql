@@ -132,13 +132,16 @@ CREATE TABLE
     CONSTRAINT fk_id_direccion_sucursal FOREIGN KEY (id_direccion) REFERENCES direcciones (id)
   );
 
+-- Modificar en ERD
 CREATE TABLE
   rutas (
     id INT (8) AUTO_INCREMENT,
     descripcion VARCHAR(200),
-    id_sucursal INT (8),
+    id_sucursal_salida INT (8),
+    id_sucursal_llegada INT (8),
     CONSTRAINT pk_id_ruta PRIMARY KEY (id),
-    CONSTRAINT fk_id_sucursal_ruta FOREIGN KEY (id_sucursal) REFERENCES sucursales (id)
+    CONSTRAINT fk_id_sucursal_salida_ruta FOREIGN KEY (id_sucursal_salida) REFERENCES sucursales (id),
+    CONSTRAINT fk_id_sucursal_llegada_ruta FOREIGN KEY (id_sucursal_llegada) REFERENCES sucursales (id)
   );
 
 CREATE TABLE

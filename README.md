@@ -38,7 +38,7 @@ Juan Diego Rojas Aguilar
    Para ingresar una sucursal es importante saber su ubicacion por eso invitamos a ver si ya existe la direccion. En caso contrario, añadirla.
 
    ```
-   INSERT INTO sucursales (nombre, id_ciudad), ('nombre_sucursal', id_direccion)[,('nombre_sucursal', id_direccion)]
+   INSERT INTO sucursales (nombre, id_ciudad), ({nombre_sucursal}, {id_direccion});
    ```
 
 4. _Un administrador desea agregar un cliente a la base de datos_
@@ -46,13 +46,14 @@ Juan Diego Rojas Aguilar
    Los clientes son entidades que reciben un id_telefono y tambien sus emails son unicos. Los telefonos son nullables entonces puede dejar el campo vacio, usaremos un caso donde este no es asi.
 
    ```
-   INSERT INTO clientes (id_telefono,nombre,email) VALUES (id_telefono,'nombre_completo','email@mail.com');
+   INSERT INTO clientes (id_telefono,nombre,email) VALUES ({id_telefono},{nombre_completo},{email@mail.com});
    ```
 
 5. _Un administrador desea agregar un numero de telefono para un cliente existente_
 
+   El telefono tiene que estar registrado por adelantado
    ```
-   UPDATE clientes SET id_telefono = id_nuevo WHERE id = id_cliente;
+   UPDATE clientes SET id_telefono = {id_nuevo} WHERE id = id_cliente;
    ```
 
    Aca tambien podriamos usar el email del cliente debido a que es un atributo unico.
@@ -62,5 +63,12 @@ Juan Diego Rojas Aguilar
    Las consideraciones son: id_tipo_servicio
 
    ```
-   INSERT (id_tipo_servicio,peso,dimensiones,contenido,valor_declarado) VALUES (int,string,decimal(10,2),dimensiones,contenido,valor_declarado(10,2));
+   INSERT INTO paquetes (id_tipo_servicio,peso,dimensiones,contenido,valor_declarado) VALUES ({id_tipo_servicio},{peso},{dimensiones},{contenido},{valor_declarado});
    ```
+7. _Un administrador desea registrar un nuevo envio, asociando un cliente, paquete ruta y sucursal_
+
+   ```
+   INSERT INTO paquetes (id_tipo_servicio, peso, dimensiones, contenido, valor_declarado) VALUES ({id_tipo_servicio},{peso});
+   INSERT INTO envios (id_cliente,id_paquete, id_ruta) VALUES ({id_cliente},{id_paquete},{id_ruta});
+   ```
+   
