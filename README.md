@@ -71,4 +71,40 @@ Juan Diego Rojas Aguilar
    INSERT INTO paquetes (id_tipo_servicio, peso, dimensiones, contenido, valor_declarado) VALUES ({id_tipo_servicio},{peso});
    INSERT INTO envios (id_cliente,id_paquete, id_ruta) VALUES ({id_cliente},{id_paquete},{id_ruta});
    ```
+
+8. _Registrar un nuevo vehiculo_
+
+    ```
+    INSERT INTO vehiculos (id_modelo, id_sucursal, placa, capacidad_carga) VALUES (1, 3, 'EAM57G', '500 kg');
+    ```
+
+9. _Registrar un nuevo conductor_
+
+    ```
+    INSERT INTO conductores (id, id_telefono, nombre) VALUES (1005337333, 34,'Omar Shakill');
+    ```
+
+10. _Registrar un nuevo telefono para un conductor_
+
+    ```
+    INSERT INTO telefonos (numero) VALUES ('315888877');
+    -- Esto nos permite ver el id del telefono recien añadido
+    SELECT id, numero FROM telefonos WHERE numero LIKE '%315888877%';
+    UPDATE conductores SET id_telefono = {id} WHERE id = {id_cliente};
+    ```
    
+11. _Asignar un conductor a una ruta y un vehiculo_
+
+    ```
+    INSERT INTO conductores_rutas (id_conductor,id_ruta,id_vehiculo,fecha_viaje) VALUES (2, 6, 1, NOW());
+    ```
+12. _Registrar un nuevo auxiliar_
+
+    ```
+    INSERT INTO auxiliares (id_telefono,nombe) VALUES (99,'Ximena Calderon');
+    ```
+
+13. _Asignar una Auxiliar a una ruta_
+    ```
+    INSERT INTO auxiliares_rutas
+    ```
