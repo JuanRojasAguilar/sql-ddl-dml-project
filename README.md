@@ -106,5 +106,100 @@ Juan Diego Rojas Aguilar
 
 13. _Asignar una Auxiliar a una ruta_
     ```
-    INSERT INTO auxiliares_rutas
+    INSERT INTO auxiliares_rutas(id_auxiliar,id_ruta) VALUES (3, 55);
     ```
+
+14. _Registrar un evento de seguimiento para un paquete_
+
+    ```
+    INSERT INTO seguimientos(id_paquete,id_estado) VALUES (3, 2);
+    ```
+
+15. _Generar un reporte de envios por cliente_
+
+    ```
+    SELECT c.id, c.nombre, c.email, GROUP_CONCAT(e.id) AS envios
+    FROM clientes AS c 
+    INNER JOIN envios AS e ON e.id_cliente = c.id
+    GROUP BY c.id, c.nombre, c.email;
+    ```
+
+16. _Actualizar el estado de un paquete_
+
+    Esto es debido a que se toma el ultimo estado de seguimiento como el actual.
+    ```
+    INSERT INTO seguimientos(id_paquete, id_estado) VALUES (1, 1);
+    ```
+
+17. _Rastrear la ubicacion actual de un paquete_
+
+    ```
+    SELECT p.id, c.nombre, d.descripcion
+    FROM paquetes AS p
+    INNER JOIN envios AS e ON e.id_paquete = p.id
+    INNER JOIN rutas AS r ON r.id = e.id_ruta
+    INNER JOIN sucursales AS s ON s.id = r.id_sucursal
+    INNER JOIN direcciones AS d ON d.id = s.id_direccion
+    INNER JOIN ciudades AS c ON c.id = d.id_ciudad;
+    ```
+
+## Casos Multitabla
+
+1. _Obtener informacion completa de envios_
+
+    ```
+    SELECT 
+        e.id AS envio_id,
+        c.email,
+        p.contenido,
+        r.descripcion AS ruta,
+        v.placa,
+        m.nombre AS vehiculo,
+        s.id AS sucursal,
+        e.fecha_orden
+    FROM envio AS e
+    JOIN clientes AS c ON c.id = e.id_cliente
+    JOIN paquetes AS p ON p.id = e.id_paquete
+    JOIN rutas AS r ON r.id = e.id_ruta
+    JOIN sucursales AS s ON s.id = r.id_sucursal
+    JOIN vehiculos AS v ON v.id_sucursal = s.id
+    JOIN modelos AS m ON m.id = v.id_modelo;
+    ```
+
+2. _Obtener el historial de envios de un cliente_
+
+    ```
+    SELECT c.id, c.email, GROUP_CONCAT(e.id), e.fecha_orden
+    FROM envios AS e
+    RIGHT JOIN clientes AS c ON c.id = e.id_cliente
+    WHERE c.id IS NOT NULL
+    GROUP BY c.id, c.email, e.fecha_orden;
+    ```
+
+3. _Listar conductores y sus rutas asignadas_
+
+    ```
+    SELECT c.id, t.numero AS telefono, GROUP_CONCAT(cr_id.ruta)
+    FROM conductores AS c 
+    LEFT JOIN telefonos AS t ON t.id = c.id_telefono
+    LEFT JOIN conductores_rutas AS cr ON cr.id_conductor = c.id
+    GROUP BY c.id, t.numero;
+    ```
+
+4. _Obtener detalles de rutas y auxiliares asignados_
+
+    ```
+    SELECT r.id, s.nombre AS sucursal, r.nombre AS ruta, a.id, a.nombre, t.numero
+    FROM rutas AS r 
+    INNER JOIN sucursales AS s ON s.id = r.id_sucursal
+    JOIN auxiliares_rutas AS ar ON ar.id_ruta = r.id
+    INNER JOIN auxiliares AS a ON a.id = ar.id_auxiliar
+    LEFT JOIN telefonos AS t ON t.id = a.id_telefono;
+    ```
+
+5. _Generar reporte de paquetes por sucursal y estado_
+
+    ```
+    SELECT
+    ```
+
